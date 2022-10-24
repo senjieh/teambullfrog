@@ -1,0 +1,174 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Record of Routes, Airlines, Airports",
+    "description": "This schema provides the plan for our JSON data for the CPTS415 project",
+    "type":"object",
+    "properties": {
+        "Airline" : {
+            "description": "Airline Data",
+            "type":"object",
+            "properties": {
+                "AirlineID":{
+                    "description": "Unique Openflight ID",
+                    "type":"string"
+                },
+                "name":{
+                    "description": "name of airline",
+                    "type":"string"
+                },
+                "alias": {
+                    "description": "Alias if available",
+                    "type":"string"
+                },
+                "IATA":{
+                    "description": "2 letter IATA code, if available",
+                    "type":"string"
+                },
+                "ICAO":{
+                    "description": "3 letter ICAO if available",
+                    "type":"string"
+                },
+                "Callsign":{
+                    "description": "Airline Callsign",
+                    "type":"string"
+                },
+                "Country":{
+                    "description": "Country where airline is located",
+                    "type":"string"
+                },
+                "Active":{
+                    "description": "Y for active, N for defunct",
+                    "type":"string"
+                }
+            }
+        },
+        "Source":{
+            "description": "Source Airport",
+            "type":"object",
+            "properties": {
+                "AirportID":{
+                    "description": "Unique OpenflightsID",
+                    "type":"integer"
+                },
+                "Name":{
+                    "description": "Airport Name",
+                    "type":"string"
+                },
+                "City":{
+                    "description": "Airport City",
+                    "type":"string"
+                },
+                "Country":{
+                    "description": "Airport Country",
+                    "type":"string"
+                },
+                "IATA":{
+                    "description": "3 letter IATA",
+                    "type":"string"
+                },
+                "ICAO":{
+                    "description": "4 letter ICAO",
+                    "type":"string"
+                },
+                "Lat":{
+                    "description": "lattitude",
+                    "type":"number"
+                },
+                "Long":{
+                    "description": "longitude",
+                    "type":"number"
+                },
+                "Altitude":{
+                    "description": "Altitude",
+                    "type":"number"
+                },
+                "Timezone":{
+                    "description": "Timezone in hours offset from UTC",
+                    "type":"number"
+                },
+                "DST":{
+                    "description": "Daylight Savings",
+                    "type":"string"
+                },
+                "TzDatabase":{
+                    "description": "TimeZone name",
+                    "type":"string"
+                },
+                "Type":{
+                    "description": "Type of airport",
+                    "type":"string"
+                }
+            }
+        },
+        "Destination":{
+            "description": "Destination Airport",
+            "type":"object",
+            "properties": {
+                "AirportID":{
+                    "description": "Unique OpenflightsID",
+                    "type":"integer"
+                },
+                "Name":{
+                    "description": "Airport Name",
+                    "type":"string"
+                },
+                "City":{
+                    "description": "Airport City",
+                    "type":"string"
+                },
+                "Country":{
+                    "description": "Airport Country",
+                    "type":"string"
+                },
+                "IATA":{
+                    "description": "3 letter IATA",
+                    "type":"string"
+                },
+                "ICAO":{
+                    "description": "4 letter ICAO",
+                    "type":"string"
+                },
+                "Lat":{
+                    "description": "lattitude",
+                    "type":"number"
+                },
+                "Long":{
+                    "description": "longitude",
+                    "type":"number"
+                },
+                "Altitude":{
+                    "description": "Altitude",
+                    "type":"number"
+                },
+                "Timezone":{
+                    "description": "Timezone in hours offset from UTC",
+                    "type":"number"
+                },
+                "DST":{
+                    "description": "Daylight Savings",
+                    "type":"string"
+                },
+                "TzDatabase":{
+                    "description": "TimeZone name",
+                    "type":"string"
+                },
+                "Type":{
+                    "description": "Type of airport",
+                    "type":"string"
+                }
+            }
+        },
+        "Codeshare":{
+            "description": "Y is this flight is a codeshare (operated by one airline for another)",
+                    "type":"string"
+        },
+        "Stops":{
+            "description": "Number of stops, 0 for direct",
+                    "type":"integer"
+        },
+        "Equiptment":{
+            "description": "3 letter airplane code",
+            "type":"string"
+        }
+    }
+}
