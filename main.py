@@ -1,9 +1,15 @@
-from asyncio.windows_events import NULL
+try:
+  from asyncio.windows_events import NULL
+except ImportError:
+  import asyncio
 from doctest import Example
 import pymongo
 import dns
 import json
 import pandas
+import requests
+import datetime
+import time
 
 def connect_and_return_cluster_connection():
   #connect and authenticate to database
@@ -32,6 +38,8 @@ def connect_and_return_db_connection(database_name):
         db = cluster.planes
       case "countries":
         db = cluster.countries
+      case "arrival":
+        db = cluster.arrival
 
     if db == NULL:
       db = eval("cluster." + str(database_name))
@@ -200,8 +208,16 @@ def reset_databases():
     #add the input array of dicts into the new database
     add_documents(i, input_data)
 
+def get_and_set_data(dataName, url):
+  # Add the data to the database
+  add_new_database(dataName)
 
-def main():
+  # Add recent arrivals to the arrival database
+  if dataName == "arrival":
+    response = requests.get(url)
+    add_documents(dataName, response.json())
+
+def main_example():
   #add a new database
   add_new_database("random_example_database")
 
@@ -234,6 +250,21 @@ def main():
   #list databases again
   print(list_databases())
 
+
+def main():
+  # Get the current day
+  current_time = datetime.datetime.now()
+  today_began = str(time.mktime(datetime.date(current_time.year, current_time.month, current_time.day).timetuple()))
+  month_ago_began = str(int(float(today_began)) - (86400 * 30))
+
+  # Temperary Airport ID value
+  airportID = "EDDF"
+
+  # Example of getting arrival information for an airport and storing it in the database
+  get_and_set_data("arrival", f"https://opensky-network.org/api/flights//arrival?airport={airportID}&begin={int(float(today_began))}&end={int(month_ago_began)}")
+
+  #list databases again
+  print(list_databases())
 
 # __name__
 if __name__=="__main__":
