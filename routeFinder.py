@@ -2,7 +2,10 @@ import DBManager
 from queue import Queue
 import timeit
 
+#Source and dest are iata codes. 
 def GetRoute(source, dest, max_depth=5):
+
+    #This was a test to attempt to get less data from the db. Ended up being faster to just query the entire route db.
 
     '''
     routesFull, routeDests = GetRouteInfo(source)
@@ -12,6 +15,8 @@ def GetRoute(source, dest, max_depth=5):
     destcheck = [destiata, destid]
     
     '''
+
+    #retrieves all the routes from the database
     routesFull = DBManager.retrieve_records("routes", None)
     
     routeDests = []
@@ -21,15 +26,21 @@ def GetRoute(source, dest, max_depth=5):
         if des not in routeDests:
             routeDests.append(des)
 
+    #Builds a graph/tree with the queried data 
     tree = BuildTree(routesFull, routeDests)
 
     start = timeit.default_timer()
+
+    #Gets a path from the bredth first search
     path = tree.bfs(source, dest)
     stop = timeit.default_timer()
+
     print(path)
     print("Time Taken: ", stop - start)
     
+    return path
 
+# Builds graph from passed in data
 def BuildTree(routesFull, routedest):
     tree = Graph(len(routedest))
 
@@ -40,6 +51,7 @@ def BuildTree(routesFull, routedest):
         
     return tree
 
+#Attempts to only get relevant routes based on destination. I'm not using it because its too slow and makes too many queries
 def GetRouteInfo(source, max_depth=3):
     
 
@@ -74,7 +86,7 @@ def GetRouteInfo(source, max_depth=3):
     return routes1, posDest
 
 
-
+#Class that creates and searches a graph.
 class Graph:
     def __init__(self, num_nodes):
         self.num_nodes = num_nodes
@@ -90,6 +102,7 @@ class Graph:
         for key in self.adjlist.keys():
             print("node", key, ": ", self.adjlist[key])
     
+    #Working depth first seach. The results from this were not optimal
     def dfs (self, start, target, path = [], visited = set()):
         path.append(start)
         visited.add(start)
@@ -105,6 +118,8 @@ class Graph:
                         return result
         path.pop()
         return None
+
+    #Bredth First Search algorithm
     
     def bfs(self, start, target):
         
