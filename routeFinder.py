@@ -24,7 +24,7 @@ def GetRoute(source, dest, max_depth=5):
     tree = BuildTree(routesFull, routeDests)
 
     start = timeit.default_timer()
-    path = tree.bfs('SEA', 'DUB')
+    path = tree.bfs(source, dest)
     stop = timeit.default_timer()
     print(path)
     print("Time Taken: ", stop - start)
