@@ -75,7 +75,7 @@ def getRoute(source, dest):
         if previous_ap == "":
             previous_ap = ap
         else:
-            routeInfo = [DBManager.retrieve_records("routes", {"sourceairport": previous_ap, "destinationairport": ap})[0]]
+            routeInfo = DBManager.retrieve_records("routes", {"sourceairport": previous_ap, "destinationairport": ap})[0]
             previous_ap = ap
 
 
@@ -106,8 +106,6 @@ class Graph:
         return_paths = []
 
         currentpath = path.copy()
-        print("CURRENTPATH")
-        print(currentpath)
 
         if start in currentpath:
             return []
@@ -123,10 +121,8 @@ class Graph:
             return_paths.append(currentpath)
 
         for route in self.adjlist[start]:
-            print(route)
             if route not in currentpath:
-                recursive_response = self.find_possible_paths(start, target, currentpath, depth-1)
-                print(recursive_response)
+                recursive_response = self.find_possible_paths(route, target, currentpath, depth-1)
                 return_paths += recursive_response.copy()
 
         return return_paths
@@ -188,4 +184,6 @@ class dijkstrasGraph:
 
 
         return([weight, previous])
-    
+
+
+test = dijkstrasGraph()

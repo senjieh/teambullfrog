@@ -17,7 +17,7 @@ def my_upd():
     destination = t2.get('1.0', END)
 
     # Array of array of json objects. Routes[flights[{}]]. Each route has multiple flights. Each flight has json data.
-    groupArrays = routeFinder.getRoute((origin).rstrip(), destination.rstrip())
+    groupArrays = [routeFinder.getRoute((origin).rstrip(), destination.rstrip())]
 
     print(groupArrays)
     
