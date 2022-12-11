@@ -38,6 +38,9 @@ def main():
 
   #routeFinder.BuildRouteTree("KSEA", "DEN")
 
+  # EXAMPLE OF ROUTEFINDER FUNCTION
+  # routeFinder.getTimes("EDDF")
+
   routeFinder.GetRoute('KSEA', 'KDEN')
 
 

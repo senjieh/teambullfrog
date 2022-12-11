@@ -1,6 +1,11 @@
 import DBManager
 from queue import Queue
 import timeit
+import datetime
+import time
+import calendar
+import requests
+import json
 
 #Source and dest are iata codes. 
 def GetRoute(source, dest, max_depth=5):
@@ -85,6 +90,37 @@ def GetRouteInfo(source, max_depth=3):
 
     return routes1, posDest
 
+def getTimes(airportID):
+    # Get the current UTC time
+    date = datetime.datetime.utcnow()
+    utc_time = calendar.timegm(date.utctimetuple()) - 86400
+    # Get what it was 2 hours ago (max time allowed by API)
+    two_hours_ago = str(int(int(float(utc_time)) - (86400 / 12)))
+
+    # Query the API
+    response = requests.get(f"https://opensky-network.org/api/flights/departure?airport={airportID}&begin={int(two_hours_ago)}&end={int(utc_time)}")
+    timeData = response.json()
+
+    print(response)
+    print(f"https://opensky-network.org/api/flights/departure?airport={airportID}&begin={int(two_hours_ago)}&end={int(utc_time)}")
+    input("pause")
+
+    # If it was successful
+    if "200" in str(response):
+        # Gets all the routes from the database
+        routesFull = DBManager.retrieve_records("routes", None)
+        db.getCollection('routes').update({}, {'$set': {"Historical Flights": ""}},false,true)
+
+        input("pause1")
+
+        for route in routesFull:
+            routeID = route.get('_id')
+            input("pause2")
+            for item in timeData:
+                if item['estDepartureAirport'] == route.get('sourceairport') and item['estArrivalAirport'] == route.get('destinationairport'):
+                    input("pause")
+                    RoutesFull.UpdateOne(str({routeID}), { '$push': { 'Historical Flights': {item['icao24'], item['lastSeen']} } })
+
 
 #Class that creates and searches a graph.
 class Graph:
@@ -155,7 +191,3 @@ class Graph:
                 target = parent[target]
             path.reverse()
         return path
-
-
-
-    
