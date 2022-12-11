@@ -111,8 +111,6 @@ def getTimes(airportID):
         routesFull = DBManager.retrieve_records("routes", None)
         db.getCollection('routes').update({}, {'$set': {"Historical Flights": ""}},false,true)
 
-        input("pause1")
-
         for route in routesFull:
             routeID = route.get('_id')
             input("pause2")
