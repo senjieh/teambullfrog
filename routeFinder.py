@@ -105,28 +105,32 @@ class Graph:
 
         return_paths = []
 
-        currentnode = start
-        currentpath = path
+        currentpath = path.copy()
+        print("CURRENTPATH")
+        print(currentpath)
+
+        if start in currentpath:
+            return []
+
         currentpath.append(start)
-        depthleft = depth
 
-        for node in list(self.adjlist[currentnode].keys()):
-            if node in currentpath:
-                continue
+        if depth == 0:
+            return []
 
-            if node == target:
-                tempPath = currentpath
-                tempPath.append(node)
-                return_paths.append(currentpath)
+        if start == target:
+            tempPath = currentpath.copy()
+            tempPath.append(start)
+            return_paths.append(currentpath)
 
-            if depthleft == 0:
-                return return_paths
-
-            return_paths + self.find_possible_paths(node, target, currentpath, depthleft-1)
-
-            currentpath.pop()
+        for route in self.adjlist[start]:
+            print(route)
+            if route not in currentpath:
+                recursive_response = self.find_possible_paths(start, target, currentpath, depth-1)
+                print(recursive_response)
+                return_paths += recursive_response.copy()
 
         return return_paths
+
 
 #Class that creates and searches a graph.
 class dijkstrasGraph:
